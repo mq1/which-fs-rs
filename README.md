@@ -9,7 +9,7 @@ WIP: only supports FAT32 as of now
 ### Usage
 
 ```rust
-let path = Path::new("/Volumes/My\ Volume/My\ Folder");
+let path = Path::new("/Volumes/My Volume/My Folder");
 let fs_kind = which_fs::detect(&path).unwrap();
 println!("{} is on {}", path.display(), fs_kind);
 ```

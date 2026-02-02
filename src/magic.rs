@@ -8,16 +8,16 @@
 use crate::FsKind;
 
 #[cfg(target_os = "macos")]
-type Magic = [i8; 16];
+pub type Magic = [i8; 16];
 
 #[cfg(target_os = "macos")]
 type CharType = i8;
 
 #[cfg(target_os = "linux")]
-type Magic = rustix::fs::FsWord;
+pub type Magic = rustix::fs::FsWord;
 
 #[cfg(windows)]
-type Magic = [u16; 8];
+pub type Magic = [u16; 8];
 
 #[cfg(windows)]
 type Char = u16;
@@ -39,7 +39,7 @@ const fn to_magic<const L: usize>(s: &'static [u8; L]) -> Magic {
 // =====
 
 #[cfg(target_os = "linux")]
-const FAT32: Magic = 0x4d44;
+const FAT32: Magic = 0x4d44; // MD
 
 #[cfg(target_os = "macos")]
 const FAT32: Magic = to_magic(b"msdos");
@@ -59,10 +59,23 @@ const EXFAT: Magic = to_magic(b"exfat");
 #[cfg(windows)]
 const EXFAT: Magic = to_magic(b"exFAT");
 
+// APFS
+// ====
+
+#[cfg(target_os = "linux")]
+const APFS: Magic = 0x42535041;
+
+#[cfg(target_os = "macos")]
+const APFS: Magic = to_magic(b"apfs");
+
+#[cfg(windows)]
+const APFS: Magic = to_magic(b"APFS");
+
 pub fn which_kind(magic: Magic) -> FsKind {
     match magic {
         FAT32 => FsKind::Fat32,
         EXFAT => FsKind::ExFat,
-        _ => FsKind::Unknown,
+        APFS => FsKind::Apfs,
+        idk => FsKind::Unknown(idk),
     }
 }

@@ -1,15 +1,17 @@
 // SPDX-FileCopyrightText: 2026 Manuel Quarneti <mq1@ik.me>
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-mod magic;
+pub mod magic;
 
-use crate::magic::which_kind;
+use crate::magic::{Magic, which_kind};
 use std::{fmt, path::Path};
 
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum FsKind {
     Fat32,
     ExFat,
-    Unknown,
+    Apfs,
+    Unknown(Magic),
 }
 
 impl fmt::Display for FsKind {
@@ -17,7 +19,8 @@ impl fmt::Display for FsKind {
         match self {
             FsKind::Fat32 => write!(f, "FAT32"),
             FsKind::ExFat => write!(f, "exFAT"),
-            FsKind::Unknown => write!(f, "Unknown"),
+            FsKind::Apfs => write!(f, "APFS"),
+            FsKind::Unknown(magic) => write!(f, "Unknown: {magic:?}"),
         }
     }
 }
@@ -72,4 +75,19 @@ pub fn detect(path: &Path) -> windows::core::Result<FsKind> {
     let kind = which_kind(fs_name_buffer);
 
     Ok(kind)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_detect() {
+        let path = Path::new(".");
+        let kind = detect(path).unwrap();
+
+        if matches!(kind, FsKind::Unknown(_)) {
+            panic!("Unknown filesystem kind: {kind}");
+        }
+    }
 }

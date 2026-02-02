@@ -1,0 +1,23 @@
+[package]
+name = "which-fs"
+version = "0.0.1"
+edition = "2024"
+rust-version = "1.85"
+authors = ["Manuel Quarneti <mq1@ik.me>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/mq1/which-fs-rs"
+homepage = "https://github.com/mq1/which-fs-rs"
+description = "Give me a path, I'll tell you the filesystem it's on"
+
+[target.'cfg(unix)'.dependencies]
+rustix = { version = "1", features = ["fs"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = ">=0.58, <=0.62", features = ["Win32_Storage_FileSystem"] }
+
+[lints.rust]
+rust_2018_idioms = "deny"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

@@ -20,7 +20,7 @@ pub type Magic = rustix::fs::FsWord;
 pub type Magic = [u16; 8];
 
 #[cfg(windows)]
-type Char = u16;
+type CharType = u16;
 
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 const fn to_magic<const L: usize>(s: &'static [u8; L]) -> Magic {

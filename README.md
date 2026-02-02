@@ -4,10 +4,8 @@ Give me a path, I'll tell you the filesystem it's on
 
 Works on Windows, Linux, and macOS
 
-**WIP**: only supports the following filesystems:
-- FAT32
-- exFAT
-- APFS
+> [!WARNING]  
+> This library only supports some popular filesystems (see [here](https://docs.rs/which-fs/latest/which_fs/enum.FsKind.html))
 
 ### Usage
 

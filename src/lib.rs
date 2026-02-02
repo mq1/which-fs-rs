@@ -71,7 +71,7 @@ pub fn detect(path: &Path) -> windows::core::Result<FsKind> {
         .collect();
 
     // Get the Volume Path Name (Mount Point)
-    let mut volume_path = [0u16; MAX_PATH as usize];
+    let mut volume_path = [0u16; MAX_PATH + 1 as usize];
     unsafe {
         GetVolumePathNameW(PCWSTR(path_wide.as_ptr()), &mut volume_path)?;
     }

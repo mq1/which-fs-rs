@@ -8,6 +8,7 @@ use std::{fmt, path::Path};
 
 pub enum FsKind {
     Fat32,
+    ExFat,
     Unknown,
 }
 
@@ -15,6 +16,7 @@ impl fmt::Display for FsKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             FsKind::Fat32 => write!(f, "FAT32"),
+            FsKind::ExFat => write!(f, "exFAT"),
             FsKind::Unknown => write!(f, "Unknown"),
         }
     }

@@ -17,7 +17,7 @@ type CharType = i8;
 pub type Magic = rustix::fs::FsWord;
 
 #[cfg(windows)]
-pub type Magic = [u16; 8];
+pub type Magic = [u16; 16];
 
 #[cfg(windows)]
 type CharType = u16;

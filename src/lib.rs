@@ -55,7 +55,7 @@ pub fn detect(path: &Path) -> windows::core::Result<FsKind> {
         GetVolumePathNameW(PCWSTR(path_wide.as_ptr()), &mut volume_path)?;
     }
 
-    let mut fs_name_buffer = [0u16; 8];
+    let mut fs_name_buffer = [0u16; 16];
     unsafe {
         GetVolumeInformationW(
             PCWSTR(volume_path.as_ptr()),

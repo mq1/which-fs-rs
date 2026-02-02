@@ -3,6 +3,7 @@
 
 mod magic;
 
+use crate::magic::which_kind;
 use std::{fmt, path::Path};
 
 pub enum FsKind {
@@ -69,20 +70,4 @@ pub fn detect(path: &Path) -> windows::core::Result<FsKind> {
     let kind = which_kind(fs_name_buffer);
 
     Ok(kind)
-}
-
-#[cfg(target_os = "macos")]
-type RawKind = [i8; 16];
-
-#[cfg(target_os = "linux")]
-type RawKind = rustix::fs::FsWord;
-
-#[cfg(windows)]
-type RawKind = [u16; 8];
-
-fn which_kind(raw: RawKind) -> FsKind {
-    match raw {
-        magic::FAT32 => FsKind::Fat32,
-        _ => FsKind::Unknown,
-    }
 }

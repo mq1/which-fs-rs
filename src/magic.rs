@@ -3,16 +3,27 @@
 
 #![allow(clippy::cast_possible_wrap)]
 
-#[cfg(target_os = "linux")]
-pub const FAT32: rustix::fs::FsWord = 0x4d44;
+use crate::FsKind;
 
 #[cfg(target_os = "macos")]
-pub const FAT32: [i8; 16] = [
+type Magic = [i8; 16];
+
+#[cfg(target_os = "linux")]
+type Magic = rustix::fs::FsWord;
+
+#[cfg(windows)]
+type Magic = [u16; 8];
+
+#[cfg(target_os = "linux")]
+const FAT32: Magic = 0x4d44;
+
+#[cfg(target_os = "macos")]
+const FAT32: Magic = [
     b'm' as i8, 's' as i8, b'd' as i8, b'o' as i8, b's' as i8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
 
 #[cfg(windows)]
-pub const FAT32: [u16; 8] = [
+const FAT32: Magic = [
     b'F' as u16,
     b'A' as u16,
     b'T' as u16,
@@ -22,3 +33,10 @@ pub const FAT32: [u16; 8] = [
     0,
     0,
 ];
+
+pub fn which_kind(magic: Magic) -> FsKind {
+    match magic {
+        FAT32 => FsKind::Fat32,
+        _ => FsKind::Unknown,
+    }
+}

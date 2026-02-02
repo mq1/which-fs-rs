@@ -7,20 +7,17 @@
 
 use crate::FsKind;
 
-#[cfg(target_os = "macos")]
-pub type Magic = [i8; 16];
+#[cfg(target_os = "linux")]
+pub type Magic = rustix::fs::FsWord;
 
 #[cfg(target_os = "macos")]
 type CharType = i8;
 
-#[cfg(target_os = "linux")]
-pub type Magic = rustix::fs::FsWord;
-
-#[cfg(windows)]
-pub type Magic = [u16; 16];
-
 #[cfg(windows)]
 type CharType = u16;
+
+#[cfg(any(target_os = "macos", target_os = "windows"))]
+pub type Magic = [CharType; 16];
 
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 const fn to_magic<const L: usize>(s: &'static [u8; L]) -> Magic {

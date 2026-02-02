@@ -4,7 +4,7 @@ Give me a path, I'll tell you the filesystem it's on
 
 Works on Windows, Linux, and macOS
 
-WIP: only supports FAT32
+WIP: only supports FAT32 as of now
 
 ### Usage
 

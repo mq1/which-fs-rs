@@ -11,6 +11,14 @@ pub enum FsKind {
     Fat32,
     ExFat,
     Apfs,
+    Ext2,
+    Hfs,
+    Btrfs,
+    Bcachefs,
+    Xfs,
+    Fuse,
+    Ntfs,
+    F2fs,
     Unknown(Magic),
 }
 
@@ -20,6 +28,14 @@ impl fmt::Display for FsKind {
             FsKind::Fat32 => write!(f, "FAT32"),
             FsKind::ExFat => write!(f, "exFAT"),
             FsKind::Apfs => write!(f, "APFS"),
+            FsKind::Ext2 => write!(f, "ext2/3/4"),
+            FsKind::Hfs => write!(f, "HFS+"),
+            FsKind::Btrfs => write!(f, "BTRFS"),
+            FsKind::Bcachefs => write!(f, "bcachefs"),
+            FsKind::Xfs => write!(f, "XFS"),
+            FsKind::Fuse => write!(f, "FUSE"),
+            FsKind::Ntfs => write!(f, "NTFS"),
+            FsKind::F2fs => write!(f, "F2FS"),
             FsKind::Unknown(magic) => write!(f, "Unknown: {magic:?}"),
         }
     }

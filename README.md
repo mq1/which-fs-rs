@@ -11,7 +11,7 @@ Works on Windows, Linux, and macOS
 
 ```rust
 let path = Path::new("/Volumes/My Volume/My Folder");
-let fs_kind = which_fs::detect(path).unwrap();
+let fs_kind = which_fs::FsKind::from_path(path).unwrap();
 println!("{} is on {}", path.display(), fs_kind);
 ```
 

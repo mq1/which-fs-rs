@@ -29,10 +29,7 @@ pub fn detect(path: &Path) -> rustix::io::Result<FsKind> {
     #[cfg(target_os = "macos")]
     let data = stat.f_fstypename;
 
-    let kind = match data {
-        magic::FAT32 => FsKind::Fat32,
-        _ => FsKind::Unknown,
-    };
+    let kind = which_kind(data);
 
     Ok(kind)
 }
@@ -69,10 +66,23 @@ pub fn detect(path: &Path) -> windows::core::Result<FsKind> {
         )?;
     }
 
-    let kind = match fs_name_buffer {
-        magic::FAT32 => FsKind::Fat32,
-        _ => FsKind::Unknown,
-    };
+    let kind = which_kind(fs_name_buffer);
 
     Ok(kind)
+}
+
+#[cfg(target_os = "macos")]
+type RawKind = [i8; 16];
+
+#[cfg(target_os = "linux")]
+type RawKind = rustix::fs::FsWord;
+
+#[cfg(windows)]
+type RawKind = [u16; 8];
+
+fn which_kind(raw: RawKind) -> FsKind {
+    match raw {
+        magic::FAT32 => FsKind::Fat32,
+        _ => FsKind::Unknown,
+    }
 }

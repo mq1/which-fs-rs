@@ -25,4 +25,5 @@ jobs:
           rustup toolchain install 1.85
           rustup default 1.85
           cargo check
+          cargo test
 

@@ -1,7 +1,7 @@
 # which-fs-rs
 
 [![Latest version](https://img.shields.io/crates/v/which-fs.svg)](https://crates.io/crates/which-fs)
-[![Documentation](https://docs.rs/which-rs/badge.svg)](https://docs.rs/which-fs)
+[![Documentation](https://docs.rs/which-fs/badge.svg)](https://docs.rs/which-fs)
 ![License](https://img.shields.io/crates/l/which-fs.svg)
 
 Give me a path, I'll tell you the filesystem it's on

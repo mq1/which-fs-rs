@@ -70,7 +70,7 @@ impl FsKind {
     /// Detects the filesystem type for the given path.
     ///
     /// # Arguments
-    /// * `path` - This can be the mount point or a path to a file within the filesystem.
+    /// * `path` - This can be the mount point or a path to a directory within the filesystem.
     ///
     /// # Errors
     /// Returns an error if the underlying OS call fails.

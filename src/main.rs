@@ -44,3 +44,8 @@ fn main() -> Result<(), lexopt::Error> {
     println!("Filesystem: {fs_kind}");
     Ok(())
 }
+
+#[cfg(not(feature = "cli"))]
+fn main() {
+    println!("Please add the `cli` feature to enable the CLI");
+}

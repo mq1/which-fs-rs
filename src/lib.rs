@@ -6,11 +6,13 @@ mod magic;
 use crate::magic::which_kind;
 use std::{fmt, path::Path};
 
+/// Represents the type of a filesystem.
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum FsKind {
     Fat32,
     ExFat,
     Apfs,
+    /// Covers ext2, ext3, and ext4.
     Ext2,
     Hfs,
     Btrfs,
@@ -19,10 +21,12 @@ pub enum FsKind {
     Fuse,
     Ntfs,
     F2fs,
+    /// Filesystem type could not be determined.
     Unknown,
 }
 
 impl fmt::Display for FsKind {
+    /// Formats `FsKind` as its common display name (e.g. `"FAT32"`, `"exFAT"`).
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             FsKind::Fat32 => write!(f, "FAT32"),
@@ -42,6 +46,13 @@ impl fmt::Display for FsKind {
 }
 
 impl FsKind {
+    /// Detects the filesystem type for the given path.
+    ///
+    /// # Arguments
+    /// * `path` - This can be the mount point or a path to a file within the filesystem.
+    ///
+    /// # Errors
+    /// Returns an error if the underlying OS call fails.
     #[cfg(unix)]
     pub fn try_from_path(path: impl AsRef<Path>) -> rustix::io::Result<FsKind> {
         let stat = rustix::fs::statfs(path.as_ref())?;
@@ -56,6 +67,13 @@ impl FsKind {
         Ok(kind)
     }
 
+    /// Detects the filesystem type for the given path.
+    ///
+    /// # Arguments
+    /// * `path` - This can be the mount point or a path to a file within the filesystem.
+    ///
+    /// # Errors
+    /// Returns an error if the underlying OS call fails.
     #[cfg(windows)]
     pub fn try_from_path(path: impl AsRef<Path>) -> windows::core::Result<FsKind> {
         use std::os::windows::ffi::OsStrExt;

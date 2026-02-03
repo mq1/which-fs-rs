@@ -1,6 +1,6 @@
 [package]
 name = "which-fs"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.85"
 authors = ["Manuel Quarneti <mq1@ik.me>"]
@@ -8,6 +8,13 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/mq1/which-fs-rs"
 homepage = "https://github.com/mq1/which-fs-rs"
 description = "Give me a path, I'll tell you the filesystem it's on"
+
+[features]
+default = []
+cli = ["dep:lexopt"]
+
+[dependencies]
+lexopt = { version = "0.3", optional = true }
 
 [target.'cfg(unix)'.dependencies]
 rustix = { version = "1", features = ["fs"] }

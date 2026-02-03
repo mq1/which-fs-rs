@@ -13,9 +13,15 @@ Works on Windows, Linux, and macOS
 
 ### Usage
 
+As a library:
 ```rust
 let path = Path::new("/Volumes/My Volume/My Folder");
 let fs_kind = which_fs::FsKind::try_from_path(path).unwrap();
 println!("{} is on a {} filesystem", path.display(), fs_kind);
 ```
 
+As a cli:
+```sh
+% which-fs .
+Filesystem: APFS
+```

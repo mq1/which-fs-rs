@@ -3,7 +3,7 @@
 
 mod magic;
 
-use crate::magic::{Magic, which_kind};
+use crate::magic::which_kind;
 use std::{fmt, path::Path};
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
@@ -19,7 +19,7 @@ pub enum FsKind {
     Fuse,
     Ntfs,
     F2fs,
-    Unknown(Magic),
+    Unknown,
 }
 
 impl fmt::Display for FsKind {
@@ -36,7 +36,7 @@ impl fmt::Display for FsKind {
             FsKind::Fuse => write!(f, "FUSE"),
             FsKind::Ntfs => write!(f, "NTFS"),
             FsKind::F2fs => write!(f, "F2FS"),
-            FsKind::Unknown(magic) => write!(f, "Unknown: {magic:?}"),
+            FsKind::Unknown => write!(f, "Unknown"),
         }
     }
 }
@@ -53,7 +53,6 @@ impl FsKind {
         let data = stat.f_fstypename;
 
         let kind = which_kind(data);
-
         Ok(kind)
     }
 
@@ -91,7 +90,6 @@ impl FsKind {
         }
 
         let kind = which_kind(fs_name_buffer);
-
         Ok(kind)
     }
 }
@@ -104,9 +102,6 @@ mod tests {
     fn test_detect() {
         let path = Path::new(".");
         let kind = FsKind::try_from_path(path).unwrap();
-
-        if matches!(kind, FsKind::Unknown(_)) {
-            panic!("Unknown filesystem kind: {kind}");
-        }
+        assert_ne!(kind, FsKind::Unknown);
     }
 }

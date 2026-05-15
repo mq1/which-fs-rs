@@ -7,7 +7,7 @@ use crate::magic::which_kind;
 use std::{fmt, path::Path};
 
 /// Represents the type of a filesystem.
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Default)]
 pub enum FsKind {
     Fat32,
     ExFat,
@@ -22,6 +22,7 @@ pub enum FsKind {
     Ntfs,
     F2fs,
     /// Filesystem type could not be determined.
+    #[default]
     Unknown,
 }
 

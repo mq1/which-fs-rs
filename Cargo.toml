@@ -1,6 +1,6 @@
 [package]
 name = "which-fs"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2024"
 rust-version = "1.85"
 authors = ["Manuel Quarneti <mq1@ik.me>"]
@@ -20,7 +20,9 @@ lexopt = { version = "0.3", optional = true }
 rustix = { version = "1", features = ["fs"] }
 
 [target.'cfg(windows)'.dependencies]
-windows = { version = ">=0.58, <=0.62", features = ["Win32_Storage_FileSystem"] }
+windows = { version = ">=0.58, <=0.62", features = [
+  "Win32_Storage_FileSystem",
+] }
 
 [lints.rust]
 rust_2018_idioms = "deny"

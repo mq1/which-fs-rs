@@ -26,26 +26,6 @@ pub enum FsKind {
     Unknown,
 }
 
-impl fmt::Display for FsKind {
-    /// Formats `FsKind` as its common display name (e.g. `"FAT32"`, `"exFAT"`).
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            FsKind::Fat32 => write!(f, "FAT32"),
-            FsKind::ExFat => write!(f, "exFAT"),
-            FsKind::Apfs => write!(f, "APFS"),
-            FsKind::Ext2 => write!(f, "ext2/3/4"),
-            FsKind::Hfs => write!(f, "HFS+"),
-            FsKind::Btrfs => write!(f, "BTRFS"),
-            FsKind::Bcachefs => write!(f, "bcachefs"),
-            FsKind::Xfs => write!(f, "XFS"),
-            FsKind::Fuse => write!(f, "FUSE"),
-            FsKind::Ntfs => write!(f, "NTFS"),
-            FsKind::F2fs => write!(f, "F2FS"),
-            FsKind::Unknown => write!(f, "Unknown"),
-        }
-    }
-}
-
 impl FsKind {
     /// Detects the filesystem type for the given path.
     ///
@@ -110,6 +90,29 @@ impl FsKind {
 
         let kind = which_kind(fs_name_buffer);
         Ok(kind)
+    }
+
+    pub fn into_str(self) -> &'static str {
+        match self {
+            FsKind::Fat32 => "FAT32",
+            FsKind::ExFat => "exFAT",
+            FsKind::Apfs => "APFS",
+            FsKind::Ext2 => "ext2/3/4",
+            FsKind::Hfs => "HFS+",
+            FsKind::Btrfs => "BTRFS",
+            FsKind::Bcachefs => "bcachefs",
+            FsKind::Xfs => "XFS",
+            FsKind::Fuse => "FUSE",
+            FsKind::Ntfs => "NTFS",
+            FsKind::F2fs => "F2FS",
+            FsKind::Unknown => "Unknown",
+        }
+    }
+}
+
+impl fmt::Display for FsKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        self.into_str().fmt(f)
     }
 }
 
